@@ -1,27 +1,19 @@
-// script.js
 const paletteDiv = document.getElementById("palette");
-
-const cssColors = [
-  { name: "MistyRose", hex: "#FFE4E1" },
-  { name: "LavenderBlush", hex: "#FFF0F5" },
-  { name: "Thistle", hex: "#D8BFD8" },
-  { name: "LightSteelBlue", hex: "#B0C4DE" },
-  { name: "HoneyDew", hex: "#F0FFF0" },
-  { name: "PeachPuff", hex: "#FFDAB9" },
-  { name: "GhostWhite", hex: "#F8F8FF" },
-  { name: "PowderBlue", hex: "#B0E0E6" },
-  { name: "PaleTurquoise", hex: "#AFEEEE" },
-  { name: "LemonChiffon", hex: "#FFFACD" },
-];
 
 function getMoodFromURL() {
   const params = new URLSearchParams(window.location.search);
-  return params.get("mood") || "ethereal chaos";
+  return params.get("mood") || "emotional static";
 }
 
-function randomPalette() {
-  const shuffled = cssColors.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 5);
+async function fetchPaletteFromGPT(mood) {
+  const res = await fetch("/.netlify/functions/gptPalette", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mood })
+  });
+
+  const palette = await res.json();
+  return palette;
 }
 
 function renderPalette(palette) {
@@ -39,7 +31,7 @@ function renderPalette(palette) {
 
     const circle = document.createElement("span");
     circle.className = "color-circle";
-    circle.style.backgroundColor = color.name;
+    circle.style.backgroundColor = color.hex;
 
     const name = document.createElement("span");
     name.textContent = color.name;
@@ -59,5 +51,8 @@ function renderPalette(palette) {
   });
 }
 
-const palette = randomPalette();
-renderPalette(palette);
+(async () => {
+  const mood = getMoodFromURL();
+  const palette = await fetchPaletteFromGPT(mood);
+  renderPalette(palette);
+})();
