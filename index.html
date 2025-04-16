@@ -2,148 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ColorMood Oracle 🎨</title>
-  <style>
-    body {
-      font-family: 'Courier New', monospace;
-      background: #f9f5ff;
-      color: #333;
-      margin: 0;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #7b5ca0;
-    }
-
-    input {
-      width: 300px;
-      padding: 0.7rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #dabfff;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #c4a3f3;
-    }
-
-    .palette {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .color-swatch {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 120px;
-    }
-
-    .color-box {
-      width: 100px;
-      height: 100px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 0.5rem;
-      border: 1px solid #ddd;
-    }
-
-    .hex {
-      font-size: 0.85rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .name {
-      font-size: 0.9rem;
-      text-align: center;
-      color: #666;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Oracle — Custom Mood Palette</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <main>
+    <h1>🎨 Color Oracle</h1>
+    <p class="subtitle">Decode your mood into a 5-color swatch spell</p>
+    <div id="palette"></div>
+  </main>
 
-  <h1>🎨 ColorMood Oracle</h1>
-  <input id="vibeInput" placeholder="enter your vibe (e.g., dreamy rage)" />
-  <button onclick="generatePalette()">Generate Palette</button>
-
-  <div class="palette" id="paletteContainer"></div>
-
-  <script>
-    const fakeGPTPalettes = {
-      "dreamy rage": [
-        { hex: "#E0BBE4", name: "lavender static" },
-        { hex: "#957DAD", name: "sugar plum fury" },
-        { hex: "#D291BC", name: "glitching cherry" },
-        { hex: "#FEC8D8", name: "soft revenge" },
-        { hex: "#FFDFD3", name: "bleeding pastel" }
-      ],
-      "lonely but ethereal": [
-        { hex: "#C6D8FF", name: "cloud signal" },
-        { hex: "#B8B5FF", name: "silk echo" },
-        { hex: "#AFCBFF", name: "void shimmer" },
-        { hex: "#D6E0F0", name: "ghost contact" },
-        { hex: "#EEE5FF", name: "moon in static" }
-      ],
-      "glitchcore heartbreak recovery": [
-        { hex: "#8C6BB1", name: "terminal violet" },
-        { hex: "#A47168", name: "numbed peach" },
-        { hex: "#EED7A1", name: "soft system crash" },
-        { hex: "#87B9D9", name: "blue reboot" },
-        { hex: "#333333", name: "debugged soul" }
-      ]
-    };
-
-    function generatePalette() {
-      const vibe = document.getElementById('vibeInput').value.toLowerCase();
-      const palette = fakeGPTPalettes[vibe] || generateRandomPalette(vibe);
-      renderPalette(palette);
-    }
-
-    function generateRandomPalette(label) {
-      const colors = [];
-      for (let i = 0; i < 5; i++) {
-        const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-        const name = `${label} tone ${i+1}`;
-        colors.push({ hex, name });
-      }
-      return colors;
-    }
-
-    function renderPalette(palette) {
-      const container = document.getElementById('paletteContainer');
-      container.innerHTML = '';
-      palette.forEach(color => {
-        const swatch = document.createElement('div');
-        swatch.className = 'color-swatch';
-        swatch.innerHTML = `
-          <div class="color-box" style="background-color: ${color.hex};"></div>
-          <div class="hex">${color.hex}</div>
-          <div class="name">${color.name}</div>
-        `;
-        container.appendChild(swatch);
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
